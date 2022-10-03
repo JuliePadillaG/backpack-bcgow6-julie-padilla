@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"time"
 	"os"
+	// "net/http"
+	
 	//"fmt"
 )
 
@@ -44,17 +46,32 @@ func (p product) getFromFile(filePath string) (*[]product, error) {
 // Luego genera la lógica de filtrado de nuestro array.
 // Devolver por el endpoint el array filtrado.
 
-func productsFilter(ctx *gin.Context) {
-
-	
-}
-
-
 func main() {
+
+	var products []product
+
+	rawData, err := os.ReadFile(jsonPath)
+
+	if err != nil {
+		return 
+	}
+
+	err = json.Unmarshal(rawData, &products)
+
+	if err != nil {
+		return 
+	}
+
 
 	router := gin.Default()
 
-	router.GET("/products", productsFilter)
+	// router.GET("/products/:id", func(c *gin.Context) {
+	// 	if product, err := products[ctx.Param("id")]; err != nil {
+	// 		ctx.String(200, "Información del producto %s, nombre: %s", ctx.Param("id"), product)
+	// 	} else {
+	// 		ctx.String(404, "Información del producto ¡No existe!")
+	// 	}
+	// })
 
 	router.Run(":8080")
 }
