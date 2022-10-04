@@ -39,13 +39,38 @@ func (p product) getFromFile(filePath string) (*[]product, error) {
 	return &products, nil
 } 
 
+func getAll(ctx *gin.Context) {
+	products, err := product{}.getFromFile(jsonPath)
+	
+	if err != nil {
+		ctx.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	
+	ctx.JSON(200, products)
+}
+
 // Según la temática elegida, necesitamos agregarles filtros a nuestro endpoint, el mismo se tiene que poder filtrar por todos los campos.
 // Dentro del handler del endpoint, recibí del contexto los valores a filtrar.
 // Luego genera la lógica de filtrado de nuestro array.
 // Devolver por el endpoint el array filtrado.
 
-func productsFilter(ctx *gin.Context) {
+func productsFilter(ctxt *gin.Context) {
+	products, err := product{}.getFromFile(jsonPath)
 
+	if err != nil {
+		panic(err)
+	}
+
+	var productosFiltrados []*product
+
+	for i, e := range products {
+		if ctxt.Query("id") == e.Id {
+			productosFiltrados = append(productosFiltrados, &e)
+		}
+	}
 	
 }
 
@@ -54,7 +79,7 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("/products", productsFilter)
+	router.GET("/products", getAll)
 
 	router.Run(":8080")
 }
