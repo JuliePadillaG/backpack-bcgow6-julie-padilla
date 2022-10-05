@@ -9,6 +9,8 @@ type Service interface {
 	GetAll() ([]Product, error)
 	CreateProduct(name, color string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error)
 	UpdateProduct(id int, name, color string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error)
+	Delete(id int) error
+	UpdateNamePrice(id int, name string, price float64) (Product, error)
 }
 
 // Paso 2. Se debe generar la estructura service que contenga el repositorio.
@@ -54,3 +56,13 @@ func (s *service) CreateProduct(name, colour string, price float64, stock int, c
 func (s *service) UpdateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error) {
 	return s.repository.UpdateProduct(id, name, colour, price, stock, code, published, creationDate)
 }
+
+func (s *service) Delete(id int) error {
+	return s.repository.Delete(id)
+}
+
+func (s *service) UpdateNamePrice(id int, name string, price float64) (Product, error) {
+
+	return s.repository.UpdateNamePrice(id, name, price)
+ }
+ 

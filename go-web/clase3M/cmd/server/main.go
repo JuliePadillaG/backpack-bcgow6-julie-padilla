@@ -22,6 +22,8 @@ import (
 
 	//CREACIÓN PUT PASO 5. Definir un servicio web mediante el método PUT, el cual tendrá como path "products/:id".
 	pr.PUT("/:id", p.UpdateProduct())
+	pr.DELETE("/:id", p.Delete())
+	pr.PATCH("/:id", p.UpdateNamePrice())
 
 	r.Run()
  }

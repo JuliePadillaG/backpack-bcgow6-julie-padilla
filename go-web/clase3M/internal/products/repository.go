@@ -30,6 +30,8 @@ type Repository interface {
 	LastID() (int, error)
 	CreateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error)
 	UpdateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error)
+	Delete(id int) error
+	UpdateNamePrice(id int, name string, price float64) (Product, error)
 }
 
 // Paso 8. Se debe generar la estructura repository
@@ -76,3 +78,36 @@ func (r *repository) UpdateProduct(id int, name, colour string, price float64, s
 	return p, nil
 }
 
+func (r *repository) Delete(id int) error {
+	deleted := false
+	var index int
+	for i := range ps {
+		if ps[i].ID == id {
+			index = i
+			deleted = true
+		}
+	}
+	if !deleted {
+		return fmt.Errorf("Producto %d no encontrado", id)
+	}
+	ps = append(ps[:index], ps[index+1:]...)
+	return nil
+}
+
+func (r *repository) UpdateNamePrice(id int, name string, price float64) (Product, error) {
+	var p Product
+	updated := false
+	for i := range ps {
+		if ps[i].ID == id {
+			ps[i].Name = name
+			ps[i].Price = price
+			updated = true
+			p = ps[i]
+		}
+	}
+	if !updated {
+		return Product{}, fmt.Errorf("Producto %d no encontrado", id)
+	}
+	return p, nil
+ }
+ 

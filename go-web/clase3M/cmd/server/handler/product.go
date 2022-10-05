@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 	"strconv"
+	"fmt"
 )
 
 // Se debe generar la estructura request
@@ -130,5 +131,61 @@ func (c *Product) UpdateProduct() gin.HandlerFunc {
 			return
 		}
 		ctx.JSON(200, p)
+	}
+}
+
+func (c *Product) Delete() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.GetHeader("token")
+		if token != "789" {
+			ctx.JSON(401, gin.H{ "error": "token inválido"})
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"),10, 64)
+		if err != nil {
+			ctx.JSON(400, gin.H{ "error": "invalid ID"})
+			return
+		}
+		err = c.service.Delete(int(id))
+		if err != nil {
+			ctx.JSON(404, gin.H{ "error": err.Error() })
+			return
+		}
+		ctx.JSON(200, gin.H{ "data": fmt.Sprintf("El producto %d ha sido eliminado", id) })
+	}
+}
+
+func (c *Product) UpdateNamePrice() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.GetHeader("token")
+		if token != "789" {
+			ctx.JSON(401, gin.H{ "error": "token inválido" })
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"),10, 64)
+		if err != nil {
+			ctx.JSON(400, gin.H{ "error":  "invalid ID"})
+			return
+		}
+		var req request
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(400, gin.H{ "error": err.Error() })
+			return
+		}
+		if req.Name == "" {
+			ctx.JSON(400, gin.H{ "error": "El nombre del producto es requerido"})
+			return
+		}
+		if req.Price == 0.0 {
+			ctx.JSON(400, gin.H{ "error": "El precio del producto es requerido"})
+			return
+		}
+		p, err := c.service.UpdateNamePrice(int(id), req.Name, req.Price)
+		if err != nil {
+			ctx.JSON(404, gin.H{ "error": err.Error() })
+			return
+		}
+		ctx.JSON(200, p)
+ 
 	}
 }
