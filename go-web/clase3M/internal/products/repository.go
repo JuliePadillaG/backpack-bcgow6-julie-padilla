@@ -66,7 +66,7 @@ func (r *repository) LastID() (int, error) {
 		return 0, nil
 	}
 
-	return ps[len(ps)].ID, nil
+	return ps[len(ps) + 1].ID, nil
 }
 
 func (r *repository) CreateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error) {
@@ -90,7 +90,15 @@ func (r *repository) CreateProduct(id int, name, colour string, price float64, s
 //CREACIÓN PUT PASO 2: Implementar la funcionalidad
 
 func (r *repository) UpdateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error) {
-	p := Product{id, name, colour, price, stock, code, published, creationDate}
+	
+	var ps []Product
+
+	err := r.db.Read(&ps)
+	if err != nil {
+		return Product{}, err
+	}
+	
+	p := Product{Name: name, Colour: colour, Price: price, Stock: stock, Code: code, Published: published, CreationDate: creationDate}
 	updated := false
 	for i := range ps {
 		if ps[i].ID == id {
@@ -102,10 +110,22 @@ func (r *repository) UpdateProduct(id int, name, colour string, price float64, s
 	if !updated {
 		return Product{}, fmt.Errorf("Producto %d no encontrado", id)
 	}
+
+	if err := r.db.Write(ps); err != nil {
+		return Product{}, err
+	}
+
 	return p, nil
 }
 
 func (r *repository) Delete(id int) error {
+	var ps []Product
+
+	err := r.db.Read(&ps)
+	if err != nil {
+		return err
+	}
+
 	deleted := false
 	var index int
 	for i := range ps {
@@ -114,14 +134,30 @@ func (r *repository) Delete(id int) error {
 			deleted = true
 		}
 	}
+	
 	if !deleted {
+		fmt.Println(index, id)
 		return fmt.Errorf("Producto %d no encontrado", id)
 	}
+	
 	ps = append(ps[:index], ps[index+1:]...)
+
+	if err := r.db.Write(ps); err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func (r *repository) UpdateNamePrice(id int, name string, price float64) (Product, error) {
+	
+	var ps []Product
+
+	err := r.db.Read(&ps)
+	if err != nil {
+		return Product{}, err
+	}
+
 	var p Product
 	updated := false
 	for i := range ps {
@@ -135,6 +171,11 @@ func (r *repository) UpdateNamePrice(id int, name string, price float64) (Produc
 	if !updated {
 		return Product{}, fmt.Errorf("Producto %d no encontrado", id)
 	}
+
+	if err := r.db.Write(ps); err != nil {
+		return Product{}, err
+	}
+
 	return p, nil
  }
  
