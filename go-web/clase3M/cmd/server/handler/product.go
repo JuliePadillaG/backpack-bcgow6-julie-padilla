@@ -7,6 +7,7 @@ import (
 	"time"
 	"strconv"
 	"fmt"
+	"os"
 )
 
 // Se debe generar la estructura request
@@ -36,8 +37,10 @@ func NewProduct(p products.Service) *Product {
 // Se deben generar todos los métodos correspondientes a los endpoints
 func (c *Product) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		token := ctx.Request.Header.Get("token")
-		if token != "789" {
+
+		token := ctx.GetHeader("token")
+
+		if token != os.Getenv("TOKEN") {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"error": "token inválido",
 			})

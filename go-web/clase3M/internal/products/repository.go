@@ -3,6 +3,7 @@ package products
 import (
 	"time"
 	"fmt"
+	"github.com/julie-padilla/go-web/clase3M/pkg/store"
 )
 
 // Paso 5. Se debe crear la estructura de la entidad
@@ -36,27 +37,53 @@ type Repository interface {
 
 // Paso 8. Se debe generar la estructura repository
 type repository struct {
-
+	db store.Store
 }
 
 // Paso 9. Se debe generar una función que devuelva el Repositorio
-func NewRepository() Repository {
-	return &repository{}
+func NewRepository(db store.Store) Repository {
+	return &repository{
+		db: db,
+	}
 }
 
 // Paso 10. Se deben implementar todos los métodos correspondientes a las operaciones a realizar (GetAll, Store, etc..)
-func (r *repository) GetAll() ([]Product, error){
-	return ps, nil
+func (r *repository) GetAll() (products []Product, err error){
+	err = r.db.Read(&products)
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
 }
 
 func (r *repository) LastID() (int, error) {
-	return lastID, nil
+	var ps []Product
+	err := r.db.Read(ps)
+	if err != nil {
+		return 0, err
+	}
+	if len(ps) == 0 {
+		return 0, nil
+	}
+
+	return ps[len(ps)].ID, nil
 }
 
 func (r *repository) CreateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error) {
+	var ps []Product
+
+	err := r.db.Read(&ps)
+	if err != nil {
+		return Product{}, err
+	}
+	
 	p := Product{id, name, colour, price, stock, code, published, creationDate}
 	ps = append(ps, p)
-	lastID = p.ID
+
+	if err := r.db.Write(ps); err != nil {
+		return Product{}, err
+	}
+
 	return p, nil
 }
 

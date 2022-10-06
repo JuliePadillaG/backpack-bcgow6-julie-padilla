@@ -2,14 +2,27 @@ package main
 
 // Se debe importar e inyectar el repositorio, servicio y handler
 import (
+	"github.com/joho/godotenv"
+	"log"
 	"github.com/gin-gonic/gin"
 	"github.com/julie-padilla/go-web/clase3M/cmd/server/handler"
 	"github.com/julie-padilla/go-web/clase3M/internal/products"
+	"github.com/julie-padilla/go-web/clase3M/pkg/store"
 )
 
 // Se debe implementar el router para los diferentes endpoints
  func main() {
-	repo := products.NewRepository()
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("error al intentar cargar archivo .env")
+	}
+	// usuario := os.Getenv("MY_USER")
+	// password := os.Getenv("MY_PASS")
+	 
+	db := store.New(store.FileType, "products.json")
+
+	repo := products.NewRepository(db)
 	service := products.NewService(repo)
 
 	p:= handler.NewProduct(service)
