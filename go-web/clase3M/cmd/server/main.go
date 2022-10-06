@@ -8,9 +8,26 @@ import (
 	"github.com/julie-padilla/go-web/clase3M/cmd/server/handler"
 	"github.com/julie-padilla/go-web/clase3M/internal/products"
 	"github.com/julie-padilla/go-web/clase3M/pkg/store"
+	"github.com/julie-padilla/go-web/docs"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
+	"os"
 )
 
 // Se debe implementar el router para los diferentes endpoints
+
+// @title MELI Bootcamp API
+// @version 1.0
+// @description This API Handle MELI Products.
+// @termsOfService https://developers.mercadolibre.com.ar/es_ar/terminos-y-condiciones
+
+// @contact.name API Support
+// @contact.url https://developers.mercadolibre.com.ar/support
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
  func main() {
 
 	err := godotenv.Load()
@@ -28,6 +45,9 @@ import (
 	p:= handler.NewProduct(service)
 
 	r := gin.Default()
+
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+   	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	pr := r.Group("/products")
 	pr.GET("/", p.GetAll())

@@ -21,6 +21,11 @@ type request struct {
 	CreationDate	time.Time	`json:"creationDate" binding:"required"`
 }
 
+type ProductRequestPatch struct {
+	Nombre string `json:"nombre" binding:"required"`
+	Price float64 `json:"price" binding:"required"`
+}
+
 // Se debe generar la estructura del controlador que tenga como campo el servicio
 type Product struct {
 	service products.Service
@@ -34,6 +39,16 @@ func NewProduct(p products.Service) *Product {
 }
 
 // Se deben generar todos los métodos correspondientes a los endpoints
+
+// ListProducts godoc
+// @Summary List products
+// @Tags Products
+// @Description get products
+// @Accept  json
+// @Produce  json
+// @Param token header string true "token"
+// @Success 200 {object} web.Response
+// @Router /products [get]
 func (c *Product) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
@@ -53,6 +68,17 @@ func (c *Product) GetAll() gin.HandlerFunc {
 	}
 }
 
+
+// CreateProducts godoc
+// @Summary Create products
+// @Tags Products
+// @Description create products
+// @Accept  json
+// @Produce  json
+// @Param token header string true "token"
+// @Param product body request true "Product to create"
+// @Success 200 {object} web.Response
+// @Router /products [post]
 func (c *Product) CreateProduct() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		
@@ -78,6 +104,20 @@ func (c *Product) CreateProduct() gin.HandlerFunc {
 }
 
 // CREACIÓN PUT PASO 4. Se agrega el controlador Update en el Handler de productos
+
+// UpdateProduct godoc
+// @Summary  Update product
+// @Tags     Products
+// @Accept   json
+// @Produce  json
+// @Param    id       path      int             true   "Id product"
+// @Param    token    header    string          false  "Token"
+// @Param    product  body      request  true   "Product to update"
+// @Success  200      {object}  web.Response
+// @Failure  401      {object}  web.Response
+// @Failure  400      {object}  web.Response
+// @Failure  404      {object}  web.Response
+// @Router   /products/{id} [PUT]
 func (c *Product) UpdateProduct() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
@@ -140,6 +180,16 @@ func (c *Product) UpdateProduct() gin.HandlerFunc {
 	}
 }
 
+// Delete Product
+// @Summary  Delete product
+// @Tags     Products
+// @Param    id     path      int     true  "Product id"
+// @Param    token  header    string  true  "Token"
+// @Success  204
+// @Failure  401    {object}  web.Response
+// @Failure  400    {object}  web.Response
+// @Failure  404    {object}  web.Response
+// @Router   /products/{id} [DELETE]
 func (c *Product) Delete() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
@@ -164,6 +214,21 @@ func (c *Product) Delete() gin.HandlerFunc {
 	}
 }
 
+// Update NamePrice Product godoc
+// @Summary      Update name price product
+// @Tags         Products
+// @Accept       json
+// @Produce      json
+// @Description  This endpoint update field name and file price from an product
+// @Param        token  header    string               true  "Token header"
+// @Param        id     path      int                  true  "Product Id"
+// @Param        name   body      ProductRequestPatch  true  "Product name"
+// @Param        price  body      ProductRequestPatch  true  "Product price"
+// @Success      200    {object}  web.Response
+// @Failure      401    {object}  web.Response
+// @Failure      400    {object}  web.Response
+// @Failure      404    {object}  web.Response
+// @Router       /products/{id} [PATCH]
 func (c *Product) UpdateNamePrice() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
