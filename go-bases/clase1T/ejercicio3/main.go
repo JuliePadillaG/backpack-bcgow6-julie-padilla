@@ -27,9 +27,9 @@ func main() {
 		12: "Diciembre",
 	}
 
-	fmt.Printf("📆 - %d, %v\n", mes, meses[mes])
+	fmt.Printf("Mes - %d, %v\n", mes, meses[mes])
 
 	//Otra forma
 	meses2 := []string{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"}
-	fmt.Printf("📆 - %d, %v\n", mes, meses2[mes-1])
+	fmt.Printf("Mes - %d, %v\n", mes, meses2[mes-1])
 }

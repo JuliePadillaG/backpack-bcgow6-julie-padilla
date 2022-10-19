@@ -26,7 +26,7 @@ func main() {
 		edad       = 23
 		empleo     = true
 		antiguedad = 1
-		sueldo     = 200000.00
+		sueldo     = 90000.00
 	)
 
 	switch {
@@ -36,10 +36,10 @@ func main() {
 		fmt.Println("Debes estar empleado.")
 	case antiguedad < vAntiguedad:
 		fmt.Println("Debes tener una antiguedad mayor a 1 año")
-	case sueldo < vSueldo:
-		fmt.Println("Otorgar credito sin interés")
+	case sueldo >= vSueldo:
+		fmt.Printf("A causa de que tu sueldo es %.2f, se te otorgará credito sin interés", sueldo)
 	default:
-		fmt.Println("Otorgar credito con interés")
+		fmt.Printf("A causa de que tu sueldo es %.2f, se te otorgará credito con interés", sueldo)
 	}
 
 }

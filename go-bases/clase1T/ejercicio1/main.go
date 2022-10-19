@@ -4,27 +4,17 @@ import (
 	"fmt"
 )
 
-/* La Real Academia Española quiere saber cuántas letras tiene una palabra y luego tener cada
-una de las letras por separado para deletrearla.
-	1. Crear una aplicación que tenga una variable con la palabra e imprimir la cantidad de letras que tiene la misma.
-	2. Luego imprimí cada una de las letras.*/
+// La Real Academia Española quiere saber cuántas letras tiene una palabra y luego tener cada una de las letras por separado para deletrearla. 
+// Crear una aplicación que tenga una variable con la palabra e imprimir la cantidad de letras que tiene la misma.
+// Luego imprimí cada una de las letras.
 
 func main() {
+	palabra := "hola"
 
-	var palabra string = "Ejemplo"
-	// fmt.Println(palabra[1]) // devuelve una runa - el tipo char de Go
-	// Por esta razón se realiza el casteo a string
-
-	fmt.Printf("Número de letras: %d\n", len(palabra))
-	for i := 0; i < len(palabra); i++ {
-		fmt.Printf("%s ", string(palabra[i]))
+	for _, letra := range(palabra) {
+		fmt.Println(string(letra))
 	}
-	fmt.Println()
 
-	// Otra forma
-	for _, value := range palabra {
-		fmt.Printf("%s ", string(value))
-	}
-	fmt.Println()
+	fmt.Printf("La palabra %s tiene %d letras.\n", palabra, len(palabra))
 
 }

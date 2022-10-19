@@ -2,17 +2,8 @@ package main
 
 import "fmt"
 
-/* Un empleado de una empresa quiere saber el nombre y edad de uno de sus empleados. Según el siguiente mapa,
-ayuda  a imprimir la edad de Benjamin.
-
-Por otro lado también es necesario:
-	1. Saber cuántos de sus empleados son mayores de 21 años.
-	2. Agregar un empleado nuevo a la lista, llamado Federico que tiene 25 años.
-	3. Eliminar a Pedro del mapa.
-*/
-
 func main() {
-	employes := map[string]int{
+	employees := map[string]int{
 		"Benjamin": 20,
 		"Nahuel":   26,
 		"Brenda":   19,
@@ -20,23 +11,23 @@ func main() {
 		"Pedro":    30,
 	}
 
-	// Edad de Benjamin
-	fmt.Printf("Edad de Benjamin %d\n", employes["Benjamin"])
+	// Ayuda a imprimir la edad de Benjamin.
+	fmt.Println("La edad de Benjamín es : ", employees["Benjamin"])
 
-	// Empleados mayores de 21
+	// Saber cuántos de sus empleados son mayores de 21 años.
 	var cantMayores21 int
-	for _, v := range employes {
-		if v > 21 {
+	for _, value := range employees {
+		if value > 21 {
 			cantMayores21++
 		}
 	}
 	fmt.Printf("Cantidad de empleados mayores de 21 = %d\n", cantMayores21)
 
-	// Agregar a Federico
-	employes["Federico"] = 25
-	fmt.Println(employes)
+	// Agregar un empleado nuevo a la lista, llamado Federico que tiene 25 años.
+	employees["Federico"] = 25
+	fmt.Println(employees)
 
-	// Eliminar a Pedro
-	delete(employes, "Pedro")
-	fmt.Println(employes)
+	// Eliminar a Pedro del mapa.
+	delete(employees, "Pedro")
+	fmt.Println(employees)
 }

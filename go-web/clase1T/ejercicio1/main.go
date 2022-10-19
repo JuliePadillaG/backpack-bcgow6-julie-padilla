@@ -57,22 +57,22 @@ func getAll(ctx *gin.Context) {
 // Luego genera la lógica de filtrado de nuestro array.
 // Devolver por el endpoint el array filtrado.
 
-func productsFilter(ctxt *gin.Context) {
-	products, err := product{}.getFromFile(jsonPath)
+// func productsFilter(ctxt *gin.Context) {
+// 	products, err := product{}.getFromFile(jsonPath)
 
-	if err != nil {
-		panic(err)
-	}
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	var productosFiltrados []*product
+// 	var productosFiltrados []*product
 
-	for i, e := range products {
-		if ctxt.Query("id") == e.Id {
-			productosFiltrados = append(productosFiltrados, &e)
-		}
-	}
+// 	// for i, e := range products {
+// 	// 	if ctxt.Query("id") == e.Id {
+// 	// 		productosFiltrados = append(productosFiltrados, &e)
+// 	// 	}
+// 	// }
 	
-}
+// }
 
 
 func main() {

@@ -8,16 +8,12 @@ Teniendo en cuenta que si la persona gana más de $50.000 se le descontará un 1
 si gana más de $150.000 se le descontará además un 10%.
 */
 
-func calcularImpuesto(salario float32) float32 {
+func calcularImpuesto(salario float64) float64 {
 	switch {
 	case salario > 150000:
-		{
 			return salario * 0.27
-		}
 	case salario > 50000:
-		{
 			return salario * 0.17
-		}
 	default:
 		return 0
 	}
@@ -25,7 +21,7 @@ func calcularImpuesto(salario float32) float32 {
 
 func main() {
 
-	var salario float32 = 150000
+	var salario float64 = 150000
 
-	fmt.Printf("Descontar impuesto %.2f\n", calcularImpuesto(salario))
+	fmt.Printf("El impuesto sobre su suelto es de: %.2f\n", calcularImpuesto(salario))
 }
