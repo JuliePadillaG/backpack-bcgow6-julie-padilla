@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "pantalon",
+    "colour": "cafe",
+    "price": 50000,
+    "stock": 40,
+    "code": "a1b2c3",
+    "published": true,
+    "creationDate": "2022-10-03T13:40:19.087Z"
+  },
+  {
+    "id": 2,
+    "name": "camiseta",
+    "colour": "blanca",
+    "price": 20000,
+    "stock": 40,
+    "code": "d1e2f3",
+    "published": true,
+    "creationDate": "2022-10-03T13:40:19.087Z"
+  },
+  {
+    "id": 3,
+    "name": "traje de baño",
+    "colour": "multicolor",
+    "price": 80000,
+    "stock": 40,
+    "code": "g1h2i3",
+    "published": false,
+    "creationDate": "2022-10-03T13:40:19.087Z"
+  },
+  {
+    "id": 4,
+    "name": "t-shirt",
+    "colour": "red",
+    "price": 40000,
+    "stock": 40,
+    "code": "g3u4y5",
+    "published": true,
+    "creationDate": "2022-10-03T13:40:19.087Z"
+  },
+  {
+    "id": 5,
+    "name": "scarf",
+    "colour": "brown",
+    "price": 30000,
+    "stock": 20,
+    "code": "o2l3l4",
+    "published": true,
+    "creationDate": "2022-10-06T13:40:19.087Z"
+  }
+]

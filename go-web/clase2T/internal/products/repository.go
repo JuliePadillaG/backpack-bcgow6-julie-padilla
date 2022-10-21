@@ -49,6 +49,7 @@ func (r *repository) LastID() (int, error) {
 }
 
 func (r *repository) CreateProduct(id int, name, colour string, price float64, stock int, code string, published bool, creationDate time.Time) (Product, error) {
+	var ps []Product
 	p := Product{id, name, colour, price, stock, code, published, creationDate}
 	ps = append(ps, p)
 	lastID = p.ID
